@@ -10,14 +10,14 @@
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,"Apple Color Emoji","Segoe UI Emoji";background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:20px}
     .container{max-width:1200px;margin:0 auto;background:rgba(255,255,255,.95);border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.1);backdrop-filter:blur(10px);overflow:hidden}
     .header{background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);padding:24px;color:#fff}
-    .header h1{margin:8px 0 2px;font-size:2rem;text-shadow:0 2px 4px rgba(0,0,0,.25); text-align: center;}
-    .header-summary{display:flex;justify-content:center;gap:16px;margin-top:12px;margin-bottom: 12px; flex-wrap: wrap;}
+    .header h1{margin:8px 0 2px;font-size:2rem;text-shadow:0 2px 4px rgba(0,0,0,.25); text-align:center}
+    .header-summary{display:flex;justify-content:center;gap:16px;margin-top:12px;margin-bottom:12px;flex-wrap:wrap}
     .summary-item{background:#ffffff22;padding:8px 16px;border-radius:999px;font-weight:600;font-size:.95rem;backdrop-filter:blur(5px)}
-    .date-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .date-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
     .date-display{font-weight:700}
-    .controls-line{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;align-items:center}
+    .controls-line{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;align-items:center;justify-content:center}
     .btn,.input{border:none;border-radius:10px;padding:8px 12px;font-weight:600}
-    .btn{cursor:pointer; background-color: #eee;}
+    .btn{cursor:pointer;background-color:#eee}
     .btn.ghost{background:#ffffff22;color:#fff}
     .btn.ghost:hover{background:#ffffff33}
     .btn.active{background:#22c55e;color:#fff}
@@ -26,10 +26,10 @@
     .nav-tab{flex:1;padding:14px 18px;background:none;border:none;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s ease;color:#6c757d}
     .nav-tab[aria-selected="true"]{background:#fff;color:#4facfe;border-bottom:3px solid #4facfe}
     .nav-tab:hover{background:rgba(79,172,254,.1)}
-    .tab-panel{display:none;padding:24px; animation: fadeIn 0.5s ease;}
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .tab-panel{display:none;padding:24px;animation:fadeIn .5s ease}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     .tab-panel[aria-hidden="false"]{display:block}
-    .meal-card{background:#fff;border-radius:15px;padding:22px;margin-bottom:16px;box-shadow:0 5px 15px rgba(0,0,0,.08);border-left:5px solid #4facfe;transition:transform .2s, box-shadow .2s}
+    .meal-card{background:#fff;border-radius:15px;padding:22px;margin-bottom:16px;box-shadow:0 5px 15px rgba(0,0,0,.08);border-left:5px solid #4facfe;transition:transform .2s,box-shadow .2s}
     .meal-card:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.15)}
     .meal-card.completed{border-left-color:#28a745;background:linear-gradient(135deg,#f8fff9 0%,#e8f5e8 100%)}
     .meal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -43,10 +43,10 @@
     .food-options-list{display:flex;flex-wrap:wrap;gap:8px}
     .food-option{padding:6px 10px;background:#fff;border:2px solid #e9ecef;border-radius:20px;font-size:.9rem;cursor:pointer}
     .food-option[aria-pressed="true"]{background:#4facfe;color:#fff;border-color:#4facfe}
-    .fruit-item{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:#fff;border:2px solid #e9ecef;border-radius:999px}
-    .fruit-qty{min-width:2ch;text-align:center;font-weight:700}
-    .fruit-btn{border:none;background:#eef6ff;padding:2px 8px;border-radius:999px;cursor:pointer}
-    .fruit-kcal{font-size:.8rem;color:#6c757d}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:#fff;border:2px solid #e9ecef;border-radius:999px}
+    .qty{min-width:2ch;text-align:center;font-weight:700}
+    .pill-btn{border:none;background:#eef6ff;padding:2px 8px;border-radius:999px;cursor:pointer}
+    .kcal{font-size:.8rem;color:#6c757d}
     .meal-calories{font-size:.95rem;color:#2c3e50;margin-top:6px;font-weight:700}
     .supplements{background:linear-gradient(135deg,#ffeaa7 0%,#fab1a0 100%);padding:12px;border-radius:10px;margin-top:8px}
     .supplements h4{margin:0 0 6px}
@@ -63,7 +63,6 @@
     .water-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     @media (max-width:768px){.header h1{font-size:1.6rem}.tab-panel{padding:18px}.meal-card{padding:18px}.food-options{grid-template-columns:1fr}}
   </style>
-  <!-- Chart.js para o gráfico -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -138,6 +137,10 @@
               <input id="goalFruit" type="number" min="0" step="1"/>
             </div>
             <div class="goal-item">
+              <label for="goalVeg">Meta de vegetais (porções):</label>
+              <input id="goalVeg" type="number" min="0" step="1"/>
+            </div>
+            <div class="goal-item">
               <label for="goalCalories">Meta de calorias (kcal):</label>
               <input id="goalCalories" type="number" min="0" step="50"/>
             </div>
@@ -150,12 +153,18 @@
           <canvas id="evolutionChart" height="120"></canvas>
         </div>
 
+        <div class="progress-section">
+          <h3>🥗 Frutas & Vegetais (últimos 14 dias)</h3>
+          <canvas id="fvChart" height="120"></canvas>
+        </div>
+
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-number" id="completedMeals">0</div><div class="stat-label">Refeições concluídas</div></div>
           <div class="stat-card"><div class="stat-number" id="totalMeals">6</div><div class="stat-label">Total de refeições</div></div>
           <div class="stat-card"><div class="stat-number" id="currentStreak">0</div><div class="stat-label">Sequência 100% (dias)</div></div>
           <div class="stat-card"><div class="stat-number" id="weeklyAverage">0%</div><div class="stat-label">Média semanal</div></div>
           <div class="stat-card"><div class="stat-number" id="fruitProgress">0 / 0</div><div class="stat-label">Frutas (porções/meta)</div></div>
+          <div class="stat-card"><div class="stat-number" id="vegProgress">0 / 0</div><div class="stat-label">Vegetais (porções/meta)</div></div>
           <div class="stat-card"><div class="stat-number" id="calProgress">0 / 0</div><div class="stat-label">Calorias (kcal consumidas/meta)</div></div>
         </div>
       </section>
@@ -172,44 +181,45 @@
   </div>
 
   <script>
-    // -------- Plano diário (fiel à dieta) --------
+    // -------- Plano diário (com vegetais por porção) --------
     const dietPlan = [
       { time:"06:30", name:"Café da manhã", foods:{
           Proteína:["3 ovos","120g frango","120g carne","120g peixe"],
           Carboidrato:["80g mandioca","100g batata-doce","100g arroz","80g cuscuz","80g macarrão integral"],
           Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"],
-          Folhas:["alface","brócolis"]
+          Vegetais:["alface (1 porção)","couve (50g)","rúcula (50g)","espinafre (50g)","cenoura (50g)","beterraba (50g)","brócolis (50g)"]
         },
         supplements:"30 min antes: Selênio 200mcg | Após: Vitamina D3 10.000ui + K2 200mcg, B12 1mg, Ômega 3 (6-8 cáps), Creatina 5g, NAC 600mg"
       },
       { time:"10:00", name:"Lanche / Pré-treino", foods:{
           Proteína:["120g frango","120g carne","120g peixe","3 ovos"],
           Carboidrato:["80g batata-doce","100g arroz","80g mandioca","80g cuscuz","80g macarrão integral"],
-          Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"]
+          Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"],
+          Vegetais:["alface (1 porção)","couve (50g)","rúcula (50g)","espinafre (50g)","cenoura (50g)","beterraba (50g)","brócolis (50g)"]
         },
         supplements:"Pré-treino (se treino 12h): Glicerina 15ml em 1L água"
       },
       { time:"13:00", name:"Almoço (pós-treino)", foods:{
           Proteína:["150g frango","150g carne","150g peixe","3 ovos"],
-          Carboidrato:["120g arroz","120g batata-doce","120g mandioca","100g cuscuz","100g macarrão integral"],
-          Vegetais:["salada + brócolis"],
-          Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"]
+          Carboidrato:["120g arroz","120g batata-doce","120g mandioca","120g batata inglesa","120g feijão cozido","120g lentilha cozida","120g grão-de-bico cozido","100g cuscuz","100g macarrão integral"],
+          Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"],
+          Vegetais:["salada verde (1 porção)","couve (50g)","rúcula (50g)","espinafre (50g)","cenoura (50g)","beterraba (50g)","brócolis (50g)"]
         },
         supplements:"Após refeição: Colágeno tipo II 40mg, Glucosamina 1,5g + Condroitina 1,2g"
       },
       { time:"16:00", name:"Lanche da tarde", foods:{
           Proteína:["120g frango","120g carne","120g peixe","3 ovos"],
-          Carboidrato:["80g batata-doce","100g arroz","80g mandioca","80g cuscuz","80g macarrão integral"],
-          Folhas:["alface","brócolis"],
-          Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"]
+          Carboidrato:["100g arroz","80g batata-doce","80g mandioca","80g cuscuz","80g macarrão integral"],
+          Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"],
+          Vegetais:["alface (1 porção)","couve (50g)","rúcula (50g)","espinafre (50g)","cenoura (50g)","beterraba (50g)","brócolis (50g)"]
         },
         supplements:"Sem manipulados fixos"
       },
       { time:"19:00", name:"Jantar", foods:{
           Proteína:["150g frango","150g carne","150g peixe","3 ovos"],
-          Vegetais:["salada verde + brócolis"],
-          "Carboidrato (opcional)":["80g arroz","80g batata-doce","80g mandioca","80g cuscuz","80g macarrão integral"],
-          Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"]
+          "Carboidrato (opcional)":["80g arroz","80g batata-doce","80g mandioca","80g batata inglesa","80g cuscuz","80g macarrão integral","100g feijão cozido","100g lentilha cozida","100g grão-de-bico cozido"],
+          Fruta:["banana (1 un)","maçã (1 un)","laranja (1 un)","mixirica (1 un)","mamão (100g)","manga (100g)","uva (100g)","melão (100g)","melancia (100g)"],
+          Vegetais:["salada verde (1 porção)","couve (50g)","rúcula (50g)","espinafre (50g)","cenoura (50g)","beterraba (50g)","brócolis (50g)"]
         },
         supplements:"Sem manipulados fixos"
       },
@@ -218,20 +228,34 @@
       }
     ];
 
-    // -------- Calorias (corrigidas) --------
+    // -------- Calorias (cozidos; valores médios realistas) --------
     const kcalDB = {
-      // Proteínas (cozidas, magras)
+      // Proteínas
       "3 ovos":210, "120g frango":198, "150g frango":248,
       "120g carne":230, "150g carne":290,
       "120g peixe":170, "150g peixe":213,
+
       // Carboidratos (cozidos)
       "80g mandioca":128, "120g mandioca":192,
       "80g batata-doce":69, "100g batata-doce":86, "120g batata-doce":103,
+      "80g batata inglesa":62, "120g batata inglesa":93,
       "100g arroz":130, "120g arroz":156,
       "80g cuscuz":96, "100g cuscuz":120,
       "80g macarrão integral":110, "100g macarrão integral":138,
-      // Vegetais
-      "alface":5, "brócolis":34, "salada + brócolis":60, "salada verde + brócolis":60,
+      "100g feijão cozido":76,  "120g feijão cozido":91,
+      "100g lentilha cozida":116, "120g lentilha cozida":139,
+      "100g grão-de-bico cozido":164, "120g grão-de-bico cozido":197,
+
+      // Vegetais / Folhas (por porção indicada)
+      "alface (1 porção)":5,
+      "salada verde (1 porção)":10,
+      "couve (50g)":18,
+      "rúcula (50g)":12,
+      "espinafre (50g)":12,
+      "cenoura (50g)":20,
+      "beterraba (50g)":22,
+      "brócolis (50g)":17,
+
       // Frutas
       "banana (1 un)":105, "maçã (1 un)":95, "laranja (1 un)":62, "mixirica (1 un)":47,
       "mamão (100g)":43, "manga (100g)":60, "uva (100g)":69, "melão (100g)":34, "melancia (100g)":30
@@ -246,8 +270,8 @@
     let mealStatus = {};
     let selectedFoods = {};
     let dailyNotes = '';
-    let goals = loadGoals();
-    let evolutionChart;
+    let goals = loadGoals(); // {fruitServings, vegServings, dailyCalories}
+    let evolutionChart, fvChart;
 
     function today(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
     const toISO = (d)=>new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString().slice(0,10);
@@ -260,15 +284,19 @@
 
     function loadGoals(){
       const g = JSON.parse(localStorage.getItem(GOALS_KEY) || '{}');
-      return { fruitServings: g.fruitServings ?? 3, dailyCalories: g.dailyCalories ?? 2600 };
+      return {
+        fruitServings: g.fruitServings ?? 3,
+        vegServings: g.vegServings ?? 3,
+        dailyCalories: g.dailyCalories ?? 2600
+      };
     }
     function saveGoals(go){ localStorage.setItem(GOALS_KEY, JSON.stringify(go)); }
 
     function getWaterGoalMl(){
       const saved = Number(localStorage.getItem(WATER_GOAL_KEY));
-      return Number.isFinite(saved) && saved>0 ? saved : 2200; // padrão 2.2 L
+      return Number.isFinite(saved) && saved>0 ? saved : 2200;
     }
-    function setWaterGoalMl(v){ localStorage.setItem(WATER_GOAL_KEY, String(Math.max(0, Math.floor(v)))); renderWater(); }
+    function setWaterGoalMl(v){ localStorage.setItem(WATER_GOAL_KEY, String(Math.max(0, Math.floor(v)))); renderWater(); renderHeader(); }
 
     function saveDayPercent(d, percent){
       const histKey = 'dietHistory';
@@ -306,19 +334,25 @@
     }
 
     function getKcal(label){ return kcalDB[label] ?? 0; }
+
     function mealCalories(index){
       const sel = selectedFoods[index] || {};
       let t=0;
       for(const [cat,val] of Object.entries(sel)){
-        if(cat==='Fruta' && val && typeof val==='object'){
+        if((cat==='Fruta' || cat==='Vegetais') && val && typeof val==='object'){
           for(const [opt, qty] of Object.entries(val)){ if(!qty) continue; t += getKcal(opt)*qty; }
         } else if(typeof val==='string'){ t += getKcal(val); }
       }
       return t;
     }
     function dayCalories(){ let s=0; for(let i=0;i<dietPlan.length;i++) s+=mealCalories(i); return s; }
-    function fruitServingsConsumed(){
-      let s=0; for(const idx in selectedFoods){ const f=selectedFoods[idx]?.Fruta; if(!f) continue; for(const qty of Object.values(f)) s += (qty||0); }
+
+    function fruitServingsConsumed(obj = selectedFoods){
+      let s=0; for(const idx in obj){ const f=obj[idx]?.Fruta; if(!f) continue; for(const q of Object.values(f)) s += (q||0); }
+      return s;
+    }
+    function vegServingsConsumed(obj = selectedFoods){
+      let s=0; for(const idx in obj){ const v=obj[idx]?.Vegetais; if(!v) continue; for(const q of Object.values(v)) s += (q||0); }
       return s;
     }
 
@@ -333,8 +367,10 @@
         const data = JSON.parse(raw);
         mealStatus = data.mealStatus || {};
         selectedFoods = data.selectedFoods || {};
+        // migração antiga: se era string, converte
         for(const [idx,obj] of Object.entries(selectedFoods)){
           if(obj?.Fruta && typeof obj.Fruta === 'string'){ obj.Fruta = { [obj.Fruta]: 1 }; }
+          if(obj?.Vegetais && typeof obj.Vegetais === 'string'){ obj.Vegetais = { [obj.Vegetais]: 1 }; }
         }
         dailyNotes = data.dailyNotes || '';
       } else {
@@ -382,21 +418,22 @@
             const title=document.createElement('h4'); title.textContent=cat;
             const list=document.createElement('div'); list.className='food-options-list';
 
-            if(cat==='Fruta'){
-              const store = selectedFoods[index]?.Fruta || {};
+            if(cat==='Fruta' || cat==='Vegetais'){
+              const store = selectedFoods[index]?.[cat] || {};
               options.forEach(option=>{
-                const item=document.createElement('div'); item.className='fruit-item';
-                const dec=document.createElement('button'); dec.className='fruit-btn'; dec.type='button'; dec.textContent='−';
-                dec.dataset.action='fruit-dec'; dec.dataset.mealIndex=String(index); dec.dataset.option=option;
-                const qty=document.createElement('span'); qty.className='fruit-qty'; qty.textContent=String(store[option]||0);
-                qty.dataset.mealIndex=String(index); qty.dataset.option=option;
-                const inc=document.createElement('button'); inc.className='fruit-btn'; inc.type='button'; inc.textContent='+';
-                inc.dataset.action='fruit-inc'; inc.dataset.mealIndex=String(index); inc.dataset.option=option;
+                const item=document.createElement('div'); item.className='pill';
+                const dec=document.createElement('button'); dec.className='pill-btn'; dec.type='button'; dec.textContent='−';
+                dec.dataset.action=(cat==='Fruta'?'fruit-dec':'veg-dec'); dec.dataset.mealIndex=String(index); dec.dataset.option=option;
+                const qty=document.createElement('span'); qty.className='qty'; qty.textContent=String(store[option]||0);
+                qty.dataset.mealIndex=String(index); qty.dataset.option=option; qty.dataset.kind=cat;
+                const inc=document.createElement('button'); inc.className='pill-btn'; inc.type='button'; inc.textContent='+';
+                inc.dataset.action=(cat==='Fruta'?'fruit-inc':'veg-inc'); inc.dataset.mealIndex=String(index); inc.dataset.option=option;
                 const lbl=document.createElement('span'); lbl.textContent=option;
-                const kc=document.createElement('span'); kc.className='fruit-kcal'; kc.textContent=`(${kcalDB[option]||0} kcal/porção)`;
+                const kc=document.createElement('span'); kc.className='kcal'; kc.textContent=`(${kcalDB[option]||0} kcal/porção)`;
                 item.append(dec,qty,inc,lbl,kc); list.appendChild(item);
               });
             } else {
+              // seleção única (proteína, carboidrato)
               options.forEach(option=>{
                 const b=document.createElement('button'); b.className='food-option'; b.type='button';
                 b.setAttribute('aria-pressed', String(selectedFoods[index]?.[cat]===option));
@@ -425,15 +462,23 @@
       });
     }
 
+    function updateHeaderSummary(){
+      const completed=Object.values(mealStatus).filter(Boolean).length;
+      const total=dietPlan.length;
+      const dcal=dayCalories();
+      document.getElementById('headerMealCounter').textContent = `${completed} / ${total} refeições`;
+      document.getElementById('headerCalorieCounter').textContent = `${dcal} / ${goals.dailyCalories} kcal`;
+      const ml = getWaterMl(), goal = getWaterGoalMl();
+      document.getElementById('headerWaterCounter').textContent = `${(ml/1000).toFixed(1)} / ${(goal/1000).toFixed(1)} L`;
+    }
+
     function updateProgress(saveHist=true){
       const completed=Object.values(mealStatus).filter(Boolean).length;
       const total=dietPlan.length;
       const percent = total > 0 ? Math.round((completed/total)*100) : 0;
       const dcal=dayCalories();
-      
-      // Atualiza os contadores no cabeçalho
-      document.getElementById('headerMealCounter').textContent = `${completed} / ${total} refeições`;
-      document.getElementById('headerCalorieCounter').textContent = `${dcal} / ${goals.dailyCalories} kcal`;
+      const f=fruitServingsConsumed();
+      const v=vegServingsConsumed();
 
       document.getElementById('progressFill').style.width=percent+'%';
       document.getElementById('progressText').textContent=`${percent}% das refeições concluídas`;
@@ -444,43 +489,85 @@
       document.getElementById('currentStreak').textContent=String(calcStreak(100));
       document.getElementById('weeklyAverage').textContent=`${calcWeeklyAverage()}%`;
 
-      const f=fruitServingsConsumed();
       document.getElementById('fruitProgress').textContent=`${f} / ${goals.fruitServings}`;
+      document.getElementById('vegProgress').textContent=`${v} / ${goals.vegServings}`;
       document.getElementById('calProgress').textContent=`${dcal} / ${goals.dailyCalories}`;
 
+      updateHeaderSummary();
       renderEvolution();
+      renderFVChart();
     }
 
     function renderWater(){
       const ml = getWaterMl();
       const goal = getWaterGoalMl();
       const pct = goal ? Math.min(100, Math.round((ml/goal)*100)) : 0;
-      
-      // Atualiza a seção de água detalhada
       document.getElementById('waterConsumedL').textContent = (ml/1000).toFixed(2);
       document.getElementById('waterGoalL').textContent = (goal/1000).toFixed(1);
       document.getElementById('waterFill').style.width = pct + '%';
       document.getElementById('waterGoalInput').value = String(goal);
-      
-      // Atualiza o contador de água no cabeçalho
-      document.getElementById('headerWaterCounter').textContent = `${(ml/1000).toFixed(1)} / ${(goal/1000).toFixed(1)} L`;
+      updateHeaderSummary();
     }
 
+    // ---------- Gráficos ----------
     function renderEvolution(){
+      if(!window.Chart) return;
       const ctx = document.getElementById('evolutionChart').getContext('2d');
       const { labels, data } = getHistory(14);
-      if(evolutionChart){ evolutionChart.data.labels = labels; evolutionChart.data.datasets[0].data = data; evolutionChart.update(); return; }
+      if(evolutionChart){
+        evolutionChart.data.labels = labels;
+        evolutionChart.data.datasets[0].data = data;
+        evolutionChart.update();
+        return;
+      }
       evolutionChart = new Chart(ctx, {
         type: 'line',
-        data: { labels, datasets: [{ label:'% do dia concluída', data, tension:0.3, backgroundColor: 'rgba(79, 172, 254, 0.2)', borderColor: '#4facfe', borderWidth: 2 }]},
-        options: {
-          responsive:true,
-          scales:{ y:{ beginAtZero:true, max:100, ticks:{ stepSize:20 }}},
-          plugins:{ legend:{ display:false } }
-        }
+        data: { labels, datasets: [{ label:'% do dia concluída', data, tension:0.3 }]},
+        options: { responsive:true, scales:{ y:{ beginAtZero:true, max:100, ticks:{ stepSize:20 }}}, plugins:{ legend:{ display:true } } }
       });
     }
 
+    function getFVHistory(n=14){
+      const labels=[], fruits=[], vegs=[];
+      for(let i=n-1;i>=0;i--){
+        const d=new Date(); d.setDate(d.getDate()-i);
+        const key = STORAGE_PREFIX + toISO(d);
+        labels.push(d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' }));
+        const raw = localStorage.getItem(key);
+        if(!raw){ fruits.push(0); vegs.push(0); continue; }
+        const rec = JSON.parse(raw);
+        const sf = fruitServingsConsumed(rec.selectedFoods || {});
+        const sv = vegServingsConsumed(rec.selectedFoods || {});
+        fruits.push(sf); vegs.push(sv);
+      }
+      return { labels, fruits, vegs };
+    }
+
+    function renderFVChart(){
+      if(!window.Chart) return;
+      const ctx = document.getElementById('fvChart').getContext('2d');
+      const { labels, fruits, vegs } = getFVHistory(14);
+      if(fvChart){
+        fvChart.data.labels = labels;
+        fvChart.data.datasets[0].data = fruits;
+        fvChart.data.datasets[1].data = vegs;
+        fvChart.update();
+        return;
+      }
+      fvChart = new Chart(ctx, {
+        type: 'line',
+        data: { 
+          labels, 
+          datasets: [
+            { label:'Frutas (porções)', data: fruits, tension:0.3 },
+            { label:'Vegetais (porções)', data: vegs, tension:0.3 }
+          ]
+        },
+        options: { responsive:true, scales:{ y:{ beginAtZero:true, ticks:{ stepSize:1 }}}, plugins:{ legend:{ display:true } } }
+      });
+    }
+
+    // -------- Tabs --------
     function setActiveTab(tabId){
       const panels=['panel-today','panel-progress','panel-notes'];
       const tabs=['tab-today','tab-progress','tab-notes'];
@@ -491,105 +578,100 @@
       });
       if(tabId==='tab-progress'){
         document.getElementById('goalFruit').value=String(goals.fruitServings);
+        document.getElementById('goalVeg').value=String(goals.vegServings);
         document.getElementById('goalCalories').value=String(goals.dailyCalories);
-        renderEvolution();
-        updateProgress(false);
+        renderEvolution(); renderFVChart(); updateProgress(false);
       }
       if(tabId==='tab-notes'){ document.getElementById('notesInput').value=dailyNotes; }
     }
-    
-    function fullRender() {
-        loadAll();
-        renderHeader();
-        renderMeals();
-        renderWater();
-        updateProgress(false);
-    }
 
+    // -------- Interações --------
     function setupInteractions(){
       const container=document.getElementById('mealsContainer');
       container.addEventListener('click',(e)=>{
         const t=e.target; if(!(t instanceof HTMLElement)) return;
-        const { action, mealIndex, index, category, option } = t.closest('[data-action]')?.dataset || {};
-        
-        if (action === 'toggle-meal') {
-            const idx = Number(index);
-            mealStatus[idx] = !mealStatus[idx];
-            saveAll(); renderMeals(); updateProgress();
-        } else if (action === 'select-food') {
-            const idx = Number(mealIndex);
-            selectedFoods[idx] ||= {};
-            selectedFoods[idx][category] = selectedFoods[idx][category] === option ? undefined : option;
-            saveAll();
-            renderMeals(); // Re-render a seção inteira para atualizar os botões
-            updateProgress(false);
-        } else if (action === 'fruit-inc' || action === 'fruit-dec') {
-            const idx = Number(mealIndex);
-            selectedFoods[idx] ||= {};
-            selectedFoods[idx].Fruta ||= {};
-            const cur = selectedFoods[idx].Fruta[option] || 0;
-            const next = Math.max(0, cur + (action === 'fruit-inc' ? 1 : -1));
-            selectedFoods[idx].Fruta[option] = next;
-            saveAll();
-            renderMeals(); // Re-render para atualizar a contagem
-            updateProgress(false);
+        const target = t.closest('[data-action]');
+        if(!target) return;
+        const { action, mealIndex, index, category, option } = target.dataset;
+
+        if(action==='toggle-meal'){
+          const idx=Number(index);
+          mealStatus[idx]=!mealStatus[idx];
+          saveAll(); renderMeals(); updateProgress();
+          return;
+        }
+        if(action==='select-food'){
+          const idx=Number(mealIndex);
+          selectedFoods[idx] ||= {};
+          selectedFoods[idx][category] = selectedFoods[idx][category] === option ? undefined : option;
+          saveAll(); renderMeals(); updateProgress(false);
+          return;
+        }
+        if(action==='fruit-inc' || action==='fruit-dec' || action==='veg-inc' || action==='veg-dec'){
+          const idx=Number(mealIndex);
+          const kind = action.startsWith('fruit') ? 'Fruta' : 'Vegetais';
+          selectedFoods[idx] ||= {}; selectedFoods[idx][kind] ||= {};
+          const cur = selectedFoods[idx][kind][option] || 0;
+          const next = Math.max(0, cur + (action.endsWith('inc') ? 1 : -1));
+          selectedFoods[idx][kind][option] = next;
+          saveAll(); renderMeals(); updateProgress(false);
+          return;
         }
       });
 
-      // Salvar anotações
-      document.getElementById('saveNotesBtn').addEventListener('click', (e) => {
-        dailyNotes = document.getElementById('notesInput').value;
+      // notas
+      document.getElementById('saveNotesBtn').addEventListener('click',(e)=>{
+        dailyNotes=document.getElementById('notesInput').value;
         saveAll();
-        const btn = e.target;
-        btn.textContent = '✓ Salvo!';
-        setTimeout(() => { btn.textContent = '💾 Salvar Anotações'; }, 2000);
-      });
-      
-      // Salvar metas
-      document.getElementById('saveGoalsBtn').addEventListener('click', () => {
-          goals.fruitServings = Number(document.getElementById('goalFruit').value) || 0;
-          goals.dailyCalories = Number(document.getElementById('goalCalories').value) || 0;
-          saveGoals(goals);
-          updateProgress(false);
-          alert('Metas salvas!');
+        const btn=e.currentTarget; btn.textContent='✓ Salvo!'; btn.classList.add('active');
+        setTimeout(()=>{ btn.textContent='💾 Salvar Anotações'; btn.classList.remove('active'); },1200);
       });
 
-      // Navegação de data
-      const changeDay = (offset) => {
-          selectedDate.setDate(selectedDate.getDate() + offset);
-          fullRender();
-      };
-      document.getElementById('prevDayBtn').addEventListener('click', () => changeDay(-1));
-      document.getElementById('nextDayBtn').addEventListener('click', () => changeDay(1));
-      document.getElementById('todayBtn').addEventListener('click', () => { selectedDate = today(); fullRender(); });
-      document.getElementById('datePicker').addEventListener('change', (e) => { selectedDate = fromISO(e.target.value); fullRender(); });
-      
-      // Metas rápidas de calorias
-      document.getElementById('btnCalRest').addEventListener('click', () => { goals.dailyCalories = 2300; saveGoals(goals); renderHeader(); updateProgress(false); });
-      document.getElementById('btnCalTrain').addEventListener('click', () => { goals.dailyCalories = 2600; saveGoals(goals); renderHeader(); updateProgress(false); });
-
-      // Metas rápidas de água
-      document.getElementById('btnWaterBase').addEventListener('click', () => { setWaterGoalMl(2200); renderHeader(); });
-      document.getElementById('btnWaterHigh').addEventListener('click', () => { setWaterGoalMl(2500); renderHeader(); });
-      
-      // Controle de água
-      const addWater = (ml) => setWaterMl(getWaterMl() + ml);
-      document.getElementById('add250').addEventListener('click', () => addWater(250));
-      document.getElementById('add500').addEventListener('click', () => addWater(500));
-      document.getElementById('add1000').addEventListener('click', () => addWater(1000));
-      document.getElementById('saveWaterGoal').addEventListener('click', () => {
-          const val = Number(document.getElementById('waterGoalInput').value);
-          setWaterGoalMl(val);
+      // metas
+      document.getElementById('saveGoalsBtn').addEventListener('click',()=>{
+        const f=Number(document.getElementById('goalFruit').value || goals.fruitServings);
+        const v=Number(document.getElementById('goalVeg').value || goals.vegServings);
+        const c=Number(document.getElementById('goalCalories').value || goals.dailyCalories);
+        goals={ fruitServings:Math.max(0,Math.floor(f)), vegServings:Math.max(0,Math.floor(v)), dailyCalories:Math.max(0,Math.floor(c)) };
+        saveGoals(goals); renderHeader(); updateProgress(false);
+        alert('Metas salvas!');
       });
+
+      // kcal rápidas
+      document.getElementById('btnCalRest').addEventListener('click',()=>{ goals.dailyCalories=2300; saveGoals(goals); renderHeader(); updateProgress(false); });
+      document.getElementById('btnCalTrain').addEventListener('click',()=>{ goals.dailyCalories=2600; saveGoals(goals); renderHeader(); updateProgress(false); });
+
+      // água
+      document.getElementById('add250').addEventListener('click',()=> setWaterMl(getWaterMl()+250));
+      document.getElementById('add500').addEventListener('click',()=> setWaterMl(getWaterMl()+500));
+      document.getElementById('add1000').addEventListener('click',()=> setWaterMl(getWaterMl()+1000));
+      document.getElementById('saveWaterGoal').addEventListener('click',()=>{
+        const v = Number(document.getElementById('waterGoalInput').value || getWaterGoalMl());
+        setWaterGoalMl(v);
+      });
+
+      // datas
+      const changeDay = (offset)=>{ selectedDate.setDate(selectedDate.getDate()+offset); fullRender(); };
+      document.getElementById('prevDayBtn').addEventListener('click',()=> changeDay(-1));
+      document.getElementById('nextDayBtn').addEventListener('click',()=> changeDay(1));
+      document.getElementById('todayBtn').addEventListener('click',()=>{ selectedDate=today(); fullRender(); });
+      document.getElementById('datePicker').addEventListener('change',(e)=>{ selectedDate=fromISO(e.target.value); fullRender(); });
+    }
+
+    function fullRender(){
+      loadAll();
+      renderHeader();
+      renderMeals();
+      renderWater();
+      updateProgress(false);
     }
 
     // -------- Inicialização --------
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded',()=>{
       document.querySelector('.nav-tabs').addEventListener('click',(e)=>{
         const btn=e.target.closest('.nav-tab'); if(!btn) return;
         setActiveTab(btn.id);
       });
-      
       setupInteractions();
       fullRender();
     });
