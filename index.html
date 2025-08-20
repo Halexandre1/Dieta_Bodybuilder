@@ -10,24 +10,24 @@
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,"Apple Color Emoji","Segoe UI Emoji";background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:20px}
     .container{max-width:1200px;margin:0 auto;background:rgba(255,255,255,.95);border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.1);backdrop-filter:blur(10px);overflow:hidden}
     .header{background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);padding:24px;color:#fff}
-    .header-top{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-    .header h1{margin:8px 0 2px;font-size:2rem;text-shadow:0 2px 4px rgba(0,0,0,.25)}
+    .header h1{margin:8px 0 2px;font-size:2rem;text-shadow:0 2px 4px rgba(0,0,0,.25); text-align: center;}
+    .header-summary{display:flex;justify-content:center;gap:16px;margin-top:12px;margin-bottom: 12px; flex-wrap: wrap;}
+    .summary-item{background:#ffffff22;padding:8px 16px;border-radius:999px;font-weight:600;font-size:.95rem;backdrop-filter:blur(5px)}
     .date-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .date-display{font-weight:700}
-    .date-controls button,.date-controls input[type="date"],.kcaltoggle button{
-      border:none;border-radius:10px;padding:8px 12px;font-weight:600;cursor:pointer
-    }
-    .date-controls{display:flex;gap:6px;align-items:center}
-    .date-controls button{background:#ffffff22;color:#fff}
-    .date-controls button:hover{background:#ffffff33}
-    .kcaltoggle{display:flex;gap:6px;align-items:center;margin-top:8px}
-    .kcaltoggle button{background:#ffffff22;color:#fff}
-    .kcaltoggle button.active{background:#22c55e}
+    .controls-line{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;align-items:center}
+    .btn,.input{border:none;border-radius:10px;padding:8px 12px;font-weight:600}
+    .btn{cursor:pointer; background-color: #eee;}
+    .btn.ghost{background:#ffffff22;color:#fff}
+    .btn.ghost:hover{background:#ffffff33}
+    .btn.active{background:#22c55e;color:#fff}
+    .input{background:#ffffffee}
     .nav-tabs{display:flex;background:#f8f9fa;border-bottom:2px solid #e9ecef}
     .nav-tab{flex:1;padding:14px 18px;background:none;border:none;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s ease;color:#6c757d}
     .nav-tab[aria-selected="true"]{background:#fff;color:#4facfe;border-bottom:3px solid #4facfe}
     .nav-tab:hover{background:rgba(79,172,254,.1)}
-    .tab-panel{display:none;padding:24px}
+    .tab-panel{display:none;padding:24px; animation: fadeIn 0.5s ease;}
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .tab-panel[aria-hidden="false"]{display:block}
     .meal-card{background:#fff;border-radius:15px;padding:22px;margin-bottom:16px;box-shadow:0 5px 15px rgba(0,0,0,.08);border-left:5px solid #4facfe;transition:transform .2s, box-shadow .2s}
     .meal-card:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.15)}
@@ -50,7 +50,7 @@
     .meal-calories{font-size:.95rem;color:#2c3e50;margin-top:6px;font-weight:700}
     .supplements{background:linear-gradient(135deg,#ffeaa7 0%,#fab1a0 100%);padding:12px;border-radius:10px;margin-top:8px}
     .supplements h4{margin:0 0 6px}
-    .progress-section,.notes-section{background:#fff;border-radius:15px;padding:20px;margin-bottom:16px;box-shadow:0 5px 15px rgba(0,0,0,.08)}
+    .progress-section,.notes-section,.water-section{background:#fff;border-radius:15px;padding:20px;margin-bottom:16px;box-shadow:0 5px 15px rgba(0,0,0,.08)}
     .progress-bar{width:100%;height:18px;background:#e9ecef;border-radius:9px;overflow:hidden;margin:10px 0}
     .progress-fill{height:100%;background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);transition:width .4s;border-radius:9px}
     .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:12px}
@@ -60,31 +60,38 @@
     .goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px}
     .goal-item{display:flex;align-items:center;gap:8px}
     .goal-item input{width:100%;padding:8px 10px;border:2px solid #e9ecef;border-radius:10px;font:inherit}
-    .notes-input{width:100%;min-height:120px;padding:12px;border:2px solid #e9ecef;border-radius:10px;font:inherit}
+    .water-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     @media (max-width:768px){.header h1{font-size:1.6rem}.tab-panel{padding:18px}.meal-card{padding:18px}.food-options{grid-template-columns:1fr}}
   </style>
+  <!-- Chart.js para o gráfico -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
     <header class="header">
-      <div class="header-top">
-        <div>
-          <h1>🍽️ Controle de Dieta</h1>
-          <div class="date-row">
-            <span class="date-display" id="friendlyDate">—</span>
-            <div class="date-controls">
-              <button id="prevDayBtn" type="button">⟵ Dia anterior</button>
-              <input id="datePicker" type="date" />
-              <button id="todayBtn" type="button">Hoje</button>
-              <button id="nextDayBtn" type="button">Dia seguinte ⟶</button>
-            </div>
-          </div>
-          <div class="kcaltoggle">
-            <strong>Meta rápida:</strong>
-            <button id="btnCalRest" type="button">Descanso 2300</button>
-            <button id="btnCalTrain" type="button" class="active">Treino 2600</button>
-          </div>
+      <h1>🍽️ Controle de Dieta</h1>
+      <div class="header-summary">
+        <div id="headerMealCounter" class="summary-item">0 / 6 refeições</div>
+        <div id="headerCalorieCounter" class="summary-item">0 / 2600 kcal</div>
+        <div id="headerWaterCounter" class="summary-item">0.0 / 2.2 L</div>
+      </div>
+      <div class="date-row">
+        <span class="date-display" id="friendlyDate">—</span>
+        <div class="controls-line">
+          <button id="prevDayBtn" class="btn ghost" type="button">⟵ Dia anterior</button>
+          <input id="datePicker" class="input" type="date" />
+          <button id="todayBtn" class="btn ghost" type="button">Hoje</button>
+          <button id="nextDayBtn" class="btn ghost" type="button">Dia seguinte ⟶</button>
         </div>
+      </div>
+      <div class="controls-line">
+        <strong>Meta calórica rápida:</strong>
+        <button id="btnCalRest" class="btn ghost" type="button">Descanso 2300</button>
+        <button id="btnCalTrain" class="btn active" type="button">Treino 2600</button>
+        <span style="opacity:.85">|</span>
+        <strong>Meta d’água rápida:</strong>
+        <button id="btnWaterBase" class="btn ghost" type="button">2.2 L</button>
+        <button id="btnWaterHigh" class="btn ghost" type="button">2.5 L</button>
       </div>
     </header>
 
@@ -95,15 +102,36 @@
     </div>
 
     <main>
+      <!-- HOJE -->
       <section id="panel-today" class="tab-panel" role="tabpanel" aria-labelledby="tab-today" aria-hidden="false">
         <div id="mealsContainer"></div>
+
+        <!-- Água -->
+        <div class="water-section">
+          <h3>💧 Hidratação do dia</h3>
+          <div class="water-row">
+            <div><strong>Consumido:</strong> <span id="waterConsumedL">0</span> L</div>
+            <div><strong>Meta:</strong> <span id="waterGoalL">2.2</span> L</div>
+          </div>
+          <div class="progress-bar"><div id="waterFill" class="progress-fill" style="width:0%"></div></div>
+          <div class="water-row">
+            <button class="btn" id="add250">+ 250 ml</button>
+            <button class="btn" id="add500">+ 500 ml</button>
+            <button class="btn" id="add1000">+ 1.000 ml</button>
+            <span style="opacity:.85">|</span>
+            <label>Meta manual (ml): <input id="waterGoalInput" class="input" type="number" min="0" step="50" style="width:120px"></label>
+            <button class="btn" id="saveWaterGoal">Salvar meta de água</button>
+          </div>
+        </div>
       </section>
 
+      <!-- PROGRESSO -->
       <section id="panel-progress" class="tab-panel" role="tabpanel" aria-labelledby="tab-progress" aria-hidden="true">
         <div class="progress-section">
           <h3>Progresso do Dia</h3>
           <div class="progress-bar"><div id="progressFill" class="progress-fill" style="width:0%"></div></div>
           <p id="progressText">0% das refeições concluídas</p>
+
           <div class="goals">
             <div class="goal-item">
               <label for="goalFruit">Meta de frutas (porções):</label>
@@ -113,9 +141,15 @@
               <label for="goalCalories">Meta de calorias (kcal):</label>
               <input id="goalCalories" type="number" min="0" step="50"/>
             </div>
-            <button id="saveGoalsBtn" class="complete-btn save-goals" type="button">Salvar metas</button>
+            <button id="saveGoalsBtn" class="btn" type="button">Salvar metas</button>
           </div>
         </div>
+
+        <div class="progress-section">
+          <h3>📈 Evolução (últimos 14 dias)</h3>
+          <canvas id="evolutionChart" height="120"></canvas>
+        </div>
+
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-number" id="completedMeals">0</div><div class="stat-label">Refeições concluídas</div></div>
           <div class="stat-card"><div class="stat-number" id="totalMeals">6</div><div class="stat-label">Total de refeições</div></div>
@@ -126,18 +160,19 @@
         </div>
       </section>
 
+      <!-- ANOTAÇÕES -->
       <section id="panel-notes" class="tab-panel" role="tabpanel" aria-labelledby="tab-notes" aria-hidden="true">
         <div class="notes-section">
           <h3>Anotações</h3>
           <textarea id="notesInput" class="notes-input" placeholder="Observações sobre o dia, fome, treino, sono..."></textarea>
-          <button id="saveNotesBtn" class="complete-btn" type="button">💾 Salvar Anotações</button>
+          <button id="saveNotesBtn" class="btn" type="button">💾 Salvar Anotações</button>
         </div>
       </section>
     </main>
   </div>
 
   <script>
-    // ============== Plano diário (fiel à dieta) ==============
+    // -------- Plano diário (fiel à dieta) --------
     const dietPlan = [
       { time:"06:30", name:"Café da manhã", foods:{
           Proteína:["3 ovos","120g frango","120g carne","120g peixe"],
@@ -183,44 +218,40 @@
       }
     ];
 
-    // ============== Calorias (corrigidas) ==============
+    // -------- Calorias (corrigidas) --------
     const kcalDB = {
       // Proteínas (cozidas, magras)
-      "3 ovos":210,
-      "120g frango":198,  "150g frango":248,
-      "120g carne":230,   "150g carne":290,
-      "120g peixe":170,   "150g peixe":213,
-
+      "3 ovos":210, "120g frango":198, "150g frango":248,
+      "120g carne":230, "150g carne":290,
+      "120g peixe":170, "150g peixe":213,
       // Carboidratos (cozidos)
       "80g mandioca":128, "120g mandioca":192,
-      "100g batata-doce":86, "120g batata-doce":103,
-      "100g arroz":130,   "120g arroz":156,
-      "80g cuscuz":96,    "100g cuscuz":120,
+      "80g batata-doce":69, "100g batata-doce":86, "120g batata-doce":103,
+      "100g arroz":130, "120g arroz":156,
+      "80g cuscuz":96, "100g cuscuz":120,
       "80g macarrão integral":110, "100g macarrão integral":138,
-
-      // Folhas/vegetais
+      // Vegetais
       "alface":5, "brócolis":34, "salada + brócolis":60, "salada verde + brócolis":60,
-
       // Frutas
       "banana (1 un)":105, "maçã (1 un)":95, "laranja (1 un)":62, "mixirica (1 un)":47,
       "mamão (100g)":43, "manga (100g)":60, "uva (100g)":69, "melão (100g)":34, "melancia (100g)":30
     };
 
-    // ============== Datas, metas e storage ==============
+    // -------- Datas, metas, storage --------
     const STORAGE_PREFIX = 'dietData-';
     const GOALS_KEY = 'dietGoals';
+    const WATER_GOAL_KEY = 'waterGoalMl';
 
-    let selectedDate = new Date(); // data atualmente exibida
-    let mealStatus = {};           // { [index]: boolean }
-    let selectedFoods = {};        // { [index]: { Categoria: "opção", Fruta: { "banana (1 un)": 1, ... } } }
+    let selectedDate = today();
+    let mealStatus = {};
+    let selectedFoods = {};
     let dailyNotes = '';
     let goals = loadGoals();
+    let evolutionChart;
 
-    const $ = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
-    const toISO = (d)=>new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString().slice(0,10); // YYYY-MM-DD (sem fuso)
+    function today(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
+    const toISO = (d)=>new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString().slice(0,10);
     const fromISO = (iso)=>{ const [y,m,dd]=iso.split('-').map(Number); const dt=new Date(); dt.setFullYear(y, m-1, dd); dt.setHours(0,0,0,0); return dt; };
-    const today = ()=>{ const d=new Date(); d.setHours(0,0,0,0); return d; };
     const dayKey = (d)=> STORAGE_PREFIX + toISO(d);
 
     function formatFriendly(d){
@@ -233,56 +264,45 @@
     }
     function saveGoals(go){ localStorage.setItem(GOALS_KEY, JSON.stringify(go)); }
 
+    function getWaterGoalMl(){
+      const saved = Number(localStorage.getItem(WATER_GOAL_KEY));
+      return Number.isFinite(saved) && saved>0 ? saved : 2200; // padrão 2.2 L
+    }
+    function setWaterGoalMl(v){ localStorage.setItem(WATER_GOAL_KEY, String(Math.max(0, Math.floor(v)))); renderWater(); }
+
     function saveDayPercent(d, percent){
       const histKey = 'dietHistory';
       const hist = JSON.parse(localStorage.getItem(histKey) || '{}');
       hist[toISO(d)] = percent;
       localStorage.setItem(histKey, JSON.stringify(hist));
     }
-    function getLastNDays(n=7){
+    function getHistory(n=14){
       const hist = JSON.parse(localStorage.getItem('dietHistory')||'{}');
-      const arr=[];
+      const labels=[], data=[];
       for(let i=n-1;i>=0;i--){
         const d=new Date(); d.setDate(d.getDate()-i);
         const k=toISO(d);
-        if(hist[k]!=null) arr.push(hist[k]);
+        labels.push(d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' }));
+        data.push(hist[k] ?? 0);
       }
-      return arr;
+      return { labels, data };
     }
     function calcWeeklyAverage(){
-      const a=getLastNDays(7); if(!a.length) return 0;
-      const s=a.reduce((x,y)=>x+y,0); return Math.round(s/a.length);
+      const hist = JSON.parse(localStorage.getItem('dietHistory')||'{}');
+      const arr=[]; for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const v=hist[toISO(d)]; if(v!=null) arr.push(v); }
+      if(!arr.length) return 0;
+      const s=arr.reduce((a,b)=>a+b,0); return Math.round(s/arr.length);
     }
     function calcStreak(th=100){
       const hist = JSON.parse(localStorage.getItem('dietHistory')||'{}');
       let s=0;
       for(let i=0;;i++){
         const d=new Date(); d.setDate(d.getDate()-i);
-        const k=toISO(d), v=hist[k];
+        const v=hist[toISO(d)];
         if(v==null || v<th) break;
         s++;
       }
       return s;
-    }
-
-    function saveAll(){
-      localStorage.setItem(dayKey(selectedDate), JSON.stringify({ mealStatus, selectedFoods, dailyNotes, date: toISO(selectedDate) }));
-    }
-    function loadAll(){
-      const raw = localStorage.getItem(dayKey(selectedDate));
-      if(raw){
-        const data = JSON.parse(raw);
-        mealStatus = data.mealStatus || {};
-        selectedFoods = data.selectedFoods || {};
-        for(const [idx,obj] of Object.entries(selectedFoods)){
-          if(obj?.Fruta && typeof obj.Fruta === 'string'){
-            obj.Fruta = { [obj.Fruta]: 1 };
-          }
-        }
-        dailyNotes = data.dailyNotes || '';
-      } else {
-        mealStatus = {}; selectedFoods = {}; dailyNotes = '';
-      }
     }
 
     function getKcal(label){ return kcalDB[label] ?? 0; }
@@ -291,44 +311,65 @@
       let t=0;
       for(const [cat,val] of Object.entries(sel)){
         if(cat==='Fruta' && val && typeof val==='object'){
-          for(const [opt, qty] of Object.entries(val)){ if(!qty) continue; t += getKcal(opt) * qty; }
-        } else if (typeof val === 'string'){ t += getKcal(val); }
+          for(const [opt, qty] of Object.entries(val)){ if(!qty) continue; t += getKcal(opt)*qty; }
+        } else if(typeof val==='string'){ t += getKcal(val); }
       }
       return t;
     }
-    function dayCalories(){
-      let s=0; for(let i=0;i<dietPlan.length;i++) s+=mealCalories(i); return s;
-    }
+    function dayCalories(){ let s=0; for(let i=0;i<dietPlan.length;i++) s+=mealCalories(i); return s; }
     function fruitServingsConsumed(){
-      let s=0;
-      for(const idx in selectedFoods){
-        const f = selectedFoods[idx]?.Fruta; if(!f) continue;
-        for(const qty of Object.values(f)) s += (qty||0);
-      }
+      let s=0; for(const idx in selectedFoods){ const f=selectedFoods[idx]?.Fruta; if(!f) continue; for(const qty of Object.values(f)) s += (qty||0); }
       return s;
     }
 
-    // ---------- Renderização ----------
-    function renderHeaderDate(){
-      $('#friendlyDate').textContent = formatFriendly(selectedDate);
-      $('#datePicker').value = toISO(selectedDate);
-      // Toggle dos botões de meta
-      $('#btnCalTrain').classList.toggle('active', goals.dailyCalories==2600);
-      $('#btnCalRest').classList.toggle('active', goals.dailyCalories==2300);
+    function saveAll(){
+      const raw = JSON.parse(localStorage.getItem(dayKey(selectedDate)) || '{}');
+      const waterMl = Number(raw.waterMl || 0);
+      localStorage.setItem(dayKey(selectedDate), JSON.stringify({ mealStatus, selectedFoods, dailyNotes, waterMl, date: toISO(selectedDate) }));
+    }
+    function loadAll(){
+      const raw = localStorage.getItem(dayKey(selectedDate));
+      if(raw){
+        const data = JSON.parse(raw);
+        mealStatus = data.mealStatus || {};
+        selectedFoods = data.selectedFoods || {};
+        for(const [idx,obj] of Object.entries(selectedFoods)){
+          if(obj?.Fruta && typeof obj.Fruta === 'string'){ obj.Fruta = { [obj.Fruta]: 1 }; }
+        }
+        dailyNotes = data.dailyNotes || '';
+      } else {
+        mealStatus = {}; selectedFoods = {}; dailyNotes = '';
+      }
+    }
+    function getWaterMl(){ const raw = JSON.parse(localStorage.getItem(dayKey(selectedDate)) || '{}'); return Number(raw.waterMl || 0); }
+    function setWaterMl(v){
+      const rec = JSON.parse(localStorage.getItem(dayKey(selectedDate)) || '{}');
+      rec.waterMl = Math.max(0, Math.floor(v));
+      localStorage.setItem(dayKey(selectedDate), JSON.stringify(rec));
+      renderWater();
+    }
+
+    // -------- Render geral --------
+    function renderHeader(){
+      document.getElementById('friendlyDate').textContent = formatFriendly(selectedDate);
+      document.getElementById('datePicker').value = toISO(selectedDate);
+      document.getElementById('btnCalTrain').classList.toggle('active', goals.dailyCalories==2600);
+      document.getElementById('btnCalRest').classList.toggle('active', goals.dailyCalories==2300);
+      document.getElementById('btnWaterBase').classList.toggle('active', getWaterGoalMl()==2200);
+      document.getElementById('btnWaterHigh').classList.toggle('active', getWaterGoalMl()==2500);
     }
 
     function renderMeals(){
-      const wrap = $('#mealsContainer'); wrap.textContent='';
+      const wrap = document.getElementById('mealsContainer'); wrap.textContent='';
       dietPlan.forEach((meal,index)=>{
-        const card=document.createElement('article');
-        card.className='meal-card'+(mealStatus[index]?' completed':'');
+        const card=document.createElement('article'); card.className='meal-card'+(mealStatus[index]?' completed':'');
         const h=document.createElement('div'); h.className='meal-header';
         const l=document.createElement('div');
         const t=document.createElement('div'); t.className='meal-time'; t.textContent=meal.time;
         const n=document.createElement('div'); n.className='meal-name'; n.textContent=meal.name;
         l.append(t,n);
-        const btn=document.createElement('button'); btn.className='complete-btn'+(mealStatus[index]?' completed':'');
-        btn.type='button'; btn.dataset.action='toggle-meal'; btn.dataset.index=String(index);
+        const btn=document.createElement('button'); btn.className='complete-btn'+(mealStatus[index]?' completed':''); btn.type='button';
+        btn.dataset.action='toggle-meal'; btn.dataset.index=String(index);
         btn.textContent=mealStatus[index]?'✓ Concluída':'Marcar como Concluída';
         h.append(l,btn); card.appendChild(h);
 
@@ -336,13 +377,13 @@
         if(categories.length){
           const optWrap=document.createElement('div'); optWrap.className='food-options';
           categories.forEach(([cat,options])=>{
-            if(!options||!options.length) return;
+            if(!options?.length) return;
             const g=document.createElement('div'); g.className='food-group';
             const title=document.createElement('h4'); title.textContent=cat;
             const list=document.createElement('div'); list.className='food-options-list';
 
             if(cat==='Fruta'){
-              const store = selectedFoods[index]?.Fruta||{};
+              const store = selectedFoods[index]?.Fruta || {};
               options.forEach(option=>{
                 const item=document.createElement('div'); item.className='fruit-item';
                 const dec=document.createElement('button'); dec.className='fruit-btn'; dec.type='button'; dec.textContent='−';
@@ -352,7 +393,7 @@
                 const inc=document.createElement('button'); inc.className='fruit-btn'; inc.type='button'; inc.textContent='+';
                 inc.dataset.action='fruit-inc'; inc.dataset.mealIndex=String(index); inc.dataset.option=option;
                 const lbl=document.createElement('span'); lbl.textContent=option;
-                const kc=document.createElement('span'); kc.className='fruit-kcal'; kc.textContent=`(${getKcal(option)} kcal/porção)`;
+                const kc=document.createElement('span'); kc.className='fruit-kcal'; kc.textContent=`(${kcalDB[option]||0} kcal/porção)`;
                 item.append(dec,qty,inc,lbl,kc); list.appendChild(item);
               });
             } else {
@@ -360,7 +401,7 @@
                 const b=document.createElement('button'); b.className='food-option'; b.type='button';
                 b.setAttribute('aria-pressed', String(selectedFoods[index]?.[cat]===option));
                 b.dataset.action='select-food'; b.dataset.mealIndex=String(index); b.dataset.category=cat; b.dataset.option=option;
-                b.textContent=`${option} · ${getKcal(option)} kcal`;
+                b.textContent=`${option} · ${(kcalDB[option]??0)} kcal`;
                 list.appendChild(b);
               });
             }
@@ -387,28 +428,59 @@
     function updateProgress(saveHist=true){
       const completed=Object.values(mealStatus).filter(Boolean).length;
       const total=dietPlan.length;
-      const percent=Math.round((completed/total)*100);
+      const percent = total > 0 ? Math.round((completed/total)*100) : 0;
+      const dcal=dayCalories();
+      
+      // Atualiza os contadores no cabeçalho
+      document.getElementById('headerMealCounter').textContent = `${completed} / ${total} refeições`;
+      document.getElementById('headerCalorieCounter').textContent = `${dcal} / ${goals.dailyCalories} kcal`;
 
-      $('#progressFill').style.width=percent+'%';
-      $('#progressText').textContent=`${percent}% das refeições concluídas`;
-      $('#completedMeals').textContent=String(completed);
-      $('#totalMeals').textContent=String(total);
+      document.getElementById('progressFill').style.width=percent+'%';
+      document.getElementById('progressText').textContent=`${percent}% das refeições concluídas`;
+      document.getElementById('completedMeals').textContent=String(completed);
+      document.getElementById('totalMeals').textContent=String(total);
 
       if(saveHist) saveDayPercent(selectedDate, percent);
-      $('#currentStreak').textContent=String(calcStreak(100));
-      $('#weeklyAverage').textContent=`${calcWeeklyAverage()}%`;
+      document.getElementById('currentStreak').textContent=String(calcStreak(100));
+      document.getElementById('weeklyAverage').textContent=`${calcWeeklyAverage()}%`;
 
-      const f=fruitServingsConsumed(), dcal=dayCalories();
-      $('#fruitProgress').textContent=`${f} / ${goals.fruitServings}`;
-      $('#calProgress').textContent=`${dcal} / ${goals.dailyCalories}`;
+      const f=fruitServingsConsumed();
+      document.getElementById('fruitProgress').textContent=`${f} / ${goals.fruitServings}`;
+      document.getElementById('calProgress').textContent=`${dcal} / ${goals.dailyCalories}`;
+
+      renderEvolution();
     }
 
-    function refreshMealKcal(index){
-      const el=document.getElementById(`meal-kcal-${index}`);
-      if(el) el.textContent=`Calorias estimadas desta refeição: ${mealCalories(index)} kcal`;
+    function renderWater(){
+      const ml = getWaterMl();
+      const goal = getWaterGoalMl();
+      const pct = goal ? Math.min(100, Math.round((ml/goal)*100)) : 0;
+      
+      // Atualiza a seção de água detalhada
+      document.getElementById('waterConsumedL').textContent = (ml/1000).toFixed(2);
+      document.getElementById('waterGoalL').textContent = (goal/1000).toFixed(1);
+      document.getElementById('waterFill').style.width = pct + '%';
+      document.getElementById('waterGoalInput').value = String(goal);
+      
+      // Atualiza o contador de água no cabeçalho
+      document.getElementById('headerWaterCounter').textContent = `${(ml/1000).toFixed(1)} / ${(goal/1000).toFixed(1)} L`;
     }
 
-    // ---------- Tabs ----------
+    function renderEvolution(){
+      const ctx = document.getElementById('evolutionChart').getContext('2d');
+      const { labels, data } = getHistory(14);
+      if(evolutionChart){ evolutionChart.data.labels = labels; evolutionChart.data.datasets[0].data = data; evolutionChart.update(); return; }
+      evolutionChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: [{ label:'% do dia concluída', data, tension:0.3, backgroundColor: 'rgba(79, 172, 254, 0.2)', borderColor: '#4facfe', borderWidth: 2 }]},
+        options: {
+          responsive:true,
+          scales:{ y:{ beginAtZero:true, max:100, ticks:{ stepSize:20 }}},
+          plugins:{ legend:{ display:false } }
+        }
+      });
+    }
+
     function setActiveTab(tabId){
       const panels=['panel-today','panel-progress','panel-notes'];
       const tabs=['tab-today','tab-progress','tab-notes'];
@@ -418,123 +490,108 @@
         document.getElementById(panels[i]).setAttribute('aria-hidden', String(!active));
       });
       if(tabId==='tab-progress'){
-        $('#goalFruit').value=String(goals.fruitServings);
-        $('#goalCalories').value=String(goals.dailyCalories);
+        document.getElementById('goalFruit').value=String(goals.fruitServings);
+        document.getElementById('goalCalories').value=String(goals.dailyCalories);
+        renderEvolution();
         updateProgress(false);
       }
-      if(tabId==='tab-notes'){ $('#notesInput').value=dailyNotes; }
+      if(tabId==='tab-notes'){ document.getElementById('notesInput').value=dailyNotes; }
+    }
+    
+    function fullRender() {
+        loadAll();
+        renderHeader();
+        renderMeals();
+        renderWater();
+        updateProgress(false);
     }
 
-    function setupTabs(){
-      const tabList=document.querySelector('.nav-tabs');
-      tabList.addEventListener('click',(e)=>{
+    function setupInteractions(){
+      const container=document.getElementById('mealsContainer');
+      container.addEventListener('click',(e)=>{
+        const t=e.target; if(!(t instanceof HTMLElement)) return;
+        const { action, mealIndex, index, category, option } = t.closest('[data-action]')?.dataset || {};
+        
+        if (action === 'toggle-meal') {
+            const idx = Number(index);
+            mealStatus[idx] = !mealStatus[idx];
+            saveAll(); renderMeals(); updateProgress();
+        } else if (action === 'select-food') {
+            const idx = Number(mealIndex);
+            selectedFoods[idx] ||= {};
+            selectedFoods[idx][category] = selectedFoods[idx][category] === option ? undefined : option;
+            saveAll();
+            renderMeals(); // Re-render a seção inteira para atualizar os botões
+            updateProgress(false);
+        } else if (action === 'fruit-inc' || action === 'fruit-dec') {
+            const idx = Number(mealIndex);
+            selectedFoods[idx] ||= {};
+            selectedFoods[idx].Fruta ||= {};
+            const cur = selectedFoods[idx].Fruta[option] || 0;
+            const next = Math.max(0, cur + (action === 'fruit-inc' ? 1 : -1));
+            selectedFoods[idx].Fruta[option] = next;
+            saveAll();
+            renderMeals(); // Re-render para atualizar a contagem
+            updateProgress(false);
+        }
+      });
+
+      // Salvar anotações
+      document.getElementById('saveNotesBtn').addEventListener('click', (e) => {
+        dailyNotes = document.getElementById('notesInput').value;
+        saveAll();
+        const btn = e.target;
+        btn.textContent = '✓ Salvo!';
+        setTimeout(() => { btn.textContent = '💾 Salvar Anotações'; }, 2000);
+      });
+      
+      // Salvar metas
+      document.getElementById('saveGoalsBtn').addEventListener('click', () => {
+          goals.fruitServings = Number(document.getElementById('goalFruit').value) || 0;
+          goals.dailyCalories = Number(document.getElementById('goalCalories').value) || 0;
+          saveGoals(goals);
+          updateProgress(false);
+          alert('Metas salvas!');
+      });
+
+      // Navegação de data
+      const changeDay = (offset) => {
+          selectedDate.setDate(selectedDate.getDate() + offset);
+          fullRender();
+      };
+      document.getElementById('prevDayBtn').addEventListener('click', () => changeDay(-1));
+      document.getElementById('nextDayBtn').addEventListener('click', () => changeDay(1));
+      document.getElementById('todayBtn').addEventListener('click', () => { selectedDate = today(); fullRender(); });
+      document.getElementById('datePicker').addEventListener('change', (e) => { selectedDate = fromISO(e.target.value); fullRender(); });
+      
+      // Metas rápidas de calorias
+      document.getElementById('btnCalRest').addEventListener('click', () => { goals.dailyCalories = 2300; saveGoals(goals); renderHeader(); updateProgress(false); });
+      document.getElementById('btnCalTrain').addEventListener('click', () => { goals.dailyCalories = 2600; saveGoals(goals); renderHeader(); updateProgress(false); });
+
+      // Metas rápidas de água
+      document.getElementById('btnWaterBase').addEventListener('click', () => { setWaterGoalMl(2200); renderHeader(); });
+      document.getElementById('btnWaterHigh').addEventListener('click', () => { setWaterGoalMl(2500); renderHeader(); });
+      
+      // Controle de água
+      const addWater = (ml) => setWaterMl(getWaterMl() + ml);
+      document.getElementById('add250').addEventListener('click', () => addWater(250));
+      document.getElementById('add500').addEventListener('click', () => addWater(500));
+      document.getElementById('add1000').addEventListener('click', () => addWater(1000));
+      document.getElementById('saveWaterGoal').addEventListener('click', () => {
+          const val = Number(document.getElementById('waterGoalInput').value);
+          setWaterGoalMl(val);
+      });
+    }
+
+    // -------- Inicialização --------
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('.nav-tabs').addEventListener('click',(e)=>{
         const btn=e.target.closest('.nav-tab'); if(!btn) return;
         setActiveTab(btn.id);
       });
-    }
-
-    // ---------- Interações ----------
-    function setupInteractions(){
-      const container=$('#mealsContainer');
-      container.addEventListener('click',(e)=>{
-        const t=e.target; if(!(t instanceof HTMLElement)) return;
-
-        const toggleBtn=t.closest('button[data-action="toggle-meal"]');
-        if(toggleBtn){
-          const idx=Number(toggleBtn.dataset.index);
-          mealStatus[idx]=!mealStatus[idx];
-          saveAll(); renderMeals(); updateProgress();
-          return;
-        }
-
-        const foodBtn=t.closest('button[data-action="select-food"]');
-        if(foodBtn){
-          const mealIndex=Number(foodBtn.dataset.mealIndex);
-          const category=foodBtn.dataset.category;
-          const option=foodBtn.dataset.option;
-          selectedFoods[mealIndex] ||= {};
-          const cur=selectedFoods[mealIndex][category];
-          selectedFoods[mealIndex][category]= cur===option ? undefined : option;
-          saveAll();
-          const group=foodBtn.parentElement;
-          if(group){ [...group.querySelectorAll('button[data-action="select-food"]')].forEach(b=>b.setAttribute('aria-pressed','false')); }
-          foodBtn.setAttribute('aria-pressed', String(selectedFoods[mealIndex][category]===option));
-          refreshMealKcal(mealIndex); updateProgress(false);
-          return;
-        }
-
-        const inc=t.closest('button[data-action="fruit-inc"]');
-        const dec=t.closest('button[data-action="fruit-dec"]');
-        if(inc||dec){
-          const mealIndex=Number((inc||dec).dataset.mealIndex);
-          const option=(inc||dec).dataset.option;
-          selectedFoods[mealIndex] ||= {};
-          selectedFoods[mealIndex].Fruta ||= {};
-          const cur=selectedFoods[mealIndex].Fruta[option]||0;
-          const next=Math.max(0, cur + (inc?1:-1));
-          selectedFoods[mealIndex].Fruta[option]=next;
-          saveAll();
-          const qtyEl=container.querySelector(`.fruit-qty[data-meal-index="${mealIndex}"][data-option="${option}"]`);
-          if(qtyEl) qtyEl.textContent=String(next);
-          refreshMealKcal(mealIndex); updateProgress(false);
-          return;
-        }
-      });
-
-      // notas
-      $('#saveNotesBtn').addEventListener('click',(e)=>{
-        dailyNotes=$('#notesInput').value;
-        saveAll();
-        const b=e.currentTarget; b.textContent='✓ Salvo!'; b.classList.add('completed');
-        setTimeout(()=>{ b.textContent='💾 Salvar Anotações'; b.classList.remove('completed'); },1400);
-      });
-
-      // metas
-      $('#saveGoalsBtn').addEventListener('click',()=>{
-        const f=Number($('#goalFruit').value || goals.fruitServings);
-        const c=Number($('#goalCalories').value || goals.dailyCalories);
-        goals={ fruitServings:Math.max(0,Math.floor(f)), dailyCalories:Math.max(0,Math.floor(c)) };
-        saveGoals(goals); updateProgress(false);
-        const b=$('#saveGoalsBtn'); b.textContent='✓ Metas salvas'; b.classList.add('completed');
-        setTimeout(()=>{ b.textContent='Salvar metas'; b.classList.remove('completed'); },1200);
-      });
-
-      // toggles rápidos de kcal
-      $('#btnCalRest').addEventListener('click',()=>{
-        goals.dailyCalories=2300; saveGoals(goals); renderHeaderDate(); updateProgress(false);
-      });
-      $('#btnCalTrain').addEventListener('click',()=>{
-        goals.dailyCalories=2600; saveGoals(goals); renderHeaderDate(); updateProgress(false);
-      });
-
-      // controles de data
-      $('#datePicker').addEventListener('change',(e)=>{
-        const val=e.target.value; if(!val) return;
-        selectedDate=fromISO(val);
-        loadAll(); renderHeaderDate(); renderMeals(); updateProgress(false);
-      });
-      $('#todayBtn').addEventListener('click',()=>{
-        selectedDate=today(); loadAll(); renderHeaderDate(); renderMeals(); updateProgress(false);
-      });
-      $('#prevDayBtn').addEventListener('click',()=>{
-        selectedDate.setDate(selectedDate.getDate()-1);
-        loadAll(); renderHeaderDate(); renderMeals(); updateProgress(false);
-      });
-      $('#nextDayBtn').addEventListener('click',()=>{
-        selectedDate.setDate(selectedDate.getDate()+1);
-        loadAll(); renderHeaderDate(); renderMeals(); updateProgress(false);
-      });
-    }
-
-    // ---------- Boot ----------
-    document.addEventListener('DOMContentLoaded',()=>{
-      selectedDate=today();
-      renderHeaderDate();
-      loadAll();
-      renderMeals();
-      updateProgress(false);
-      setupTabs();
+      
       setupInteractions();
+      fullRender();
     });
   </script>
 </body>
